@@ -11,20 +11,6 @@ spring:
     encoding: UTF-8
     mode: HTML
     cache: false
-#  redis:
-#    host: 8.140.1.39
-#    port: 6379
-#    password: redis123
-#    lettuce:
-#      pool:
-#        max-active: 8
-#        max-wait: -1
-#        max-idle: 8
-#        min-idle: 0
-#    timeout: 30000
-#    database: 0
-
-
 
 mybatis:
   mapper-locations: classpath:mappers/*.xml
