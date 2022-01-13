@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<script type="text/javascript" async="" src="style/js/conversion.js"></script>
+<script src="style/js/allmobilize.min.js" charset="utf-8" id="allmobilize"></script>
+<style type="text/css"></style>
+<meta content="no-siteapp" http-equiv="Cache-Control">
+<link media="handheld" rel="alternate">
+<!-- end 云适配 -->
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<title>修改密码-聘我-互联网招聘平台</title>
+<script type="text/javascript">
+    var ctx = "h";
+</script>
+<link href="h/images/favicon.ico" rel="Shortcut Icon">
+<link href="style/css/style.css" type="text/css" rel="stylesheet">
+<link href="style/css/external.min.css" type="text/css" rel="stylesheet">
+<link href="style/css/popup.css" type="text/css" rel="stylesheet">
+<script type="text/javascript" src="style/js/jquery.1.10.1.min.js"></script>
+<script src="style/js/jquery.lib.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="style/js/ajaxfileupload.js"></script>
+<script src="style/js/additional-methods.js" type="text/javascript"></script>
+<!--[if lte IE 8]>
+<script type="text/javascript" src="style/js/excanvas.js"></script>
+<![endif]-->
+<script src="style/js/ajaxCross.json" charset="UTF-8"></script></head>
+<script type="text/javascript" th:inline="javascript">
+    $(document).ready(function () {
+        var type_id = [[${session.type_id}]];
+        if (type_id == "" || type_id == 2) {
+            $("#jianli").hide();
+            $("#tdzw").hide();
+            $("#zhiwei").show();
+            $("#companymess").show();
+        }
+        if (type_id == 1) {
+            $("#jianli").show();
+            $("#tdzw").show();
+            $("#zhiwei").hide();
+            $("#companymess").hide();
+        }
+    });
+</script>
+
+<body>
+<div id="body">
+    <div id="header">
+        <div class="wrapper">
+            <a class="logo" href="index.html">
+                <img width="229" height="43" alt="聘我招聘-互联网招聘" src="style/images/PinWologo.png">
+            </a>
+            <ul id="navheader" class="reset">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="selectCompanymessByCity.yc?city=">招聘单位</a></li>
+                <li id="jianli"><a href="selectjbxx.yc" rel="nofollow">我的简历</a></li>
+                <li id="companymess"><a href="addcompanymess.html" rel="nofollow">我的公司</a></li>
+                <li id="zhiwei"><a rel="nofollow" href="create.html">发布职位</a></li>
+                <li id="tdzw"><a rel="nofollow" href="delivery.yc">我投递的职位</a></li>
+            </ul>
+            <dl class="collapsible_menu">
+                <dt>
+                    <span>[[${session.username}]]&nbsp;</span>
+                    <span class="red dn" id="noticeDot-1"></span>
+                    <i></i>
+                </dt>
+                <dd><a href="selectzhiwei.yc">我发布的职位</a></dd>
+                <dd><a href="updatePwd.html">修改密码</a></dd>
+                <dd class="logout"><a rel="nofollow" href="Index.html">退出</a></dd>
+            </dl>
+        </div>
+    </div><!-- end #header -->
+    <div id="container">
+        <input type="hidden" id="hasSidebar" value="1">
+        <div class="content user_modifyContent">
+            <dl class="c_section">
+                <dt>
+                    <h2><em></em>修改密码</h2>
+                </dt>
+                <dd>
+                    <form id="updatePswForm" name="updatePasswordForm" action="updatePassword.yc">
+                        <table class="savePassword">
+                            <tbody>
+                            <tr>
+                                <td class="label"> 账户名称</td>
+                                <td class="c7">[[${session.username}]]</td>
+                            </tr>
+                            <tr>
+                                <td class="label">当前密码</td>
+                                <td>
+                                    <input placeholder="请输入当前密码" type="password" maxlength="16" id="oldpassword" name="oldpassword">
+                                    <span id="updatePwd_beError" style="display:none;" class="error">
+            				</span></td>
+                            </tr>
+                            <tr>
+                                <td class="label">新密码</td>
+                                <td><input placeholder="请输入新密码" type="password" maxlength="16" id="newpassword" name="newpassword">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label">确认密码</td>
+                                <td><input placeholder="请确认密码" type="password" maxlength="16" id="insurepassword" name="insurepassword">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td><input type="button" value="保 存" id="updatepwd" class="submitLogin"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </form>
+                </dd>
+            </dl>
+        </div>
+
+        <!------------------------------------- end ----------------------------------------->
+        <script src="style/js/setting.js"></script>
+        <div class="clear"></div>
+        <input type="hidden" value="" id="resubmitToken">
+        <a rel="nofollow" title="回到顶部" id="backtop"></a>
+    </div><!-- end #container -->
+</div><!-- end #body -->
+
+<script src="style/js/core.min.js" type="text/javascript"></script>
+<script src="style/js/popup.min.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#updatepwd").click(function () {
+            var oldpassword = $("#oldpassword").val();
+            var newpassword = $("#newpassword").val();
+            var insurepassword = $("#insurepassword").val();
+            if (oldpassword == "") {
+                alert("当前密码不能为空！");
+                $("#oldpassword").focus();
+                return;
+            }
+            if (newpassword == "") {
+                alert("新密码不能为空！");
+                $("#newpassword").focus();
+                return;
+            }
+            if (insurepassword == "") {
+                alert("确认密码不能为空！")
+                $("#insurepassword").focus();
+                return;
+            }
+            if (insurepassword != newpassword) {
+                alert("确认密码与新密码不一致，请重新输入！")
+                $("#insurepassword").focus();
+                return;
+            }
+            document.updatePasswordForm.submit();
+        });
+    })
+</script>
+
+
+<div id="cboxOverlay" style="display: none;"></div>
+<div id="colorbox" class="" role="dialog" tabindex="-1" style="display: none;">
+    <div id="cboxWrapper">
+        <div>
+            <div id="cboxTopLeft" style="float: left;"></div>
+            <div id="cboxTopCenter" style="float: left;"></div>
+            <div id="cboxTopRight" style="float: left;"></div>
+        </div>
+        <div style="clear: left;">
+            <div id="cboxMiddleLeft" style="float: left;"></div>
+            <div id="cboxContent" style="float: left;"><
+                div id="cboxTitle" style="float: left;">
+            </div>
+            <div id="cboxCurrent" style="float: left;"></div>
+            <button type="button" id="cboxPrevious"></button>
+            <button type="button" id="cboxNext"></button>
+            <button id="cboxSlideshow"></button>
+            <div id="cboxLoadingOverlay" style="float: left;"></div>
+            <div id="cboxLoadingGraphic" style="float: left;"></div>
+        </div>
+        <div id="cboxMiddleRight" style="float: left;"></div>
+    </div>
+    <div style="clear: left;">
+        <div id="cboxBottomLeft" style="float: left;"></div>
+        <div id="cboxBottomCenter" style="float: left;"></div>
+        <div id="cboxBottomRight" style="float: left;"></div>
+    </div>
+</div>
+<div style="position: absolute; width: 9999px; visibility: hidden; display: none;"></div>
+</div>
+</body>
+</html>

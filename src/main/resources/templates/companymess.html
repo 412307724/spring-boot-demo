@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script type="text/javascript" async="" src="style/js/conversion.js"></script>
+    <script src="style/js/allmobilize.min.js" charset="utf-8" id="allmobilize"></script>
+    <style type="text/css"></style>
+    <meta content="no-siteapp" http-equiv="Cache-Control">
+    <link media="handheld" rel="alternate">
+    <!-- end 云适配 -->
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+    <title th:text="${companymess.companyname}+'-聘我-最专业的互联网招聘平台'"></title>
+    <link href="style/css/style.css" type="text/css" rel="stylesheet">
+    <link href="style/css/external.min.css" type="text/css" rel="stylesheet">
+    <link href="style/css/popup.css" type="text/css" rel="stylesheet">
+    <script type="text/javascript" src="style/js/jquery.1.10.1.min.js"></script>
+    <script src="style/js/jquery.lib.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="style/js/ajaxfileupload.js"></script>
+    <script src="style/js/additional-methods.js" type="text/javascript"></script>
+    <!--[if lte IE 8]>
+    <script type="text/javascript" src="style/js/excanvas.js"></script>
+    <![endif]-->
+    <script src="style/js/ajaxCross.json" charset="UTF-8"></script>
+</head>
+<script type="text/javascript" th:inline="javascript">
+    $(document).ready(function () {
+        var type_id = [[${session.type_id}]];
+        if (type_id == "" || type_id == 2) {
+            $("#jianli").hide();
+            $("#wyzgz").hide();
+            $("#zhiwei").show();
+            $("#wfbdzw").show();
+            $("#wsddjl").show();
+            $("#wdgszy").show();
+            $("#companymess").show();
+        }
+        if (type_id == 1) {
+            $("#jianli").show();
+            $("#zhiwei").hide();
+            $("#wfbdzw").hide();
+            $("#wsddjl").hide();
+            $("#wdgszy").hide();
+            $("#companymess").hide();
+        }
+    });
+</script>
+<body>
+<div id="body">
+    <div id="header">
+        <div class="wrapper">
+            <a href="index.html" class="logo">
+                <img src="style/images/PinWologo.png" width="229" height="43" alt="聘我招聘-互联网招聘"/>
+            </a>
+            <ul class="reset" id="navheader">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="selectCompanymessByCity.yc?city=">招聘单位</a></li>
+                <li id="companymess"><a href="addcompanymess.html" rel="nofollow">我的公司</a></li>
+                <li id="jianli"><a href="selectjbxx.yc" rel="nofollow">我的简历</a></li>
+                <li id="zhiwei"><a href="create.html" rel="nofollow">发布职位</a></li>
+            </ul>
+            <ul class="loginTop">
+                <li><a href="login.html" rel="nofollow">登录</a></li>
+                <li>|</li>
+                <li><a href="register.html" rel="nofollow">注册</a></li>
+            </ul>
+            <dl class="collapsible_menu">
+                <dt>
+                    <span>[[${session.username}]]&nbsp;</span>
+                    <span class="red dn" id="noticeDot-1"></span>
+                    <i></i>
+                </dt>
+                <dd><a href="updatePwd.html">修改密码</a></dd>
+                <dd class="logout"><a rel="nofollow" href="Index.html">退出</a></dd>
+            </dl>
+        </div>
+    </div>
+    <div id="container">
+        <div class="clearfix">
+
+            <div class="content_l">
+                <div class="c_detail">
+                    <div style="background-color:#fff;" class="c_logo">
+                        <img width="190" height="190" alt="公司logo" th:src="@{'style/images/'+${companymess.logoimg}}">
+                    </div>
+
+                    <div class="c_box companyName">
+                        <h2 th:title="${companymess.companyname}"><span th:text="${companymess.companyname}"></span></h2>
+                        <div class="clear"></div>
+                        <h1 th:title="${companymess.companyname}" class="fullname"><span th:text="${companymess.companyname}"></span></h1>
+                        <h3 class="dn">已选择标签</h3>
+                        <ul style="overflow:auto" id="hasLabels" class="reset clearfix">
+                            <li><span th:text="${companymess.s_radio}"></span></li>
+                        </ul>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+
+                <div class="c_breakline"></div>
+
+                <div id="Profile">
+                    <div class="profile_wrap">
+                        <dl class="c_section">
+                            <dt>
+                                <h2><em></em>公司介绍</h2>
+                            </dt>
+                            <dd>
+                                <div class="c_intro" th:text="${companymess.temptation}"></div>
+                            </dd>
+                        </dl>
+                    </div>
+
+                </div><!-- end #Profile -->
+
+                <br/>
+                <dl id="noJobs" class="c_section">
+                    <dt>
+                        <h2><em></em>招聘职位</h2>
+                    </dt>
+                    <dd><span th:each="zw:${zw}">
+                       <th:block th:if="${zw.zhiwei_id == '' || zw.zhiwei_id == null}">
+                            <div class="mb10">
+                                <span style="color: #6e6868;font-size: 22px">您还未发布任何职位</span>
+                            </div>
+                       </th:block>
+                        <th:block th:if="${zw.zhiwei_id != '' && zw.zhiwei_id != null}">
+                        <li class="clearfix">
+                            <div class="hot_pos_l">
+                                <div class="mb10">
+                                    <a th:href="@{'zhiwei.yc?zhiwei_id='+${zw.zhiwei_id}}"
+                                       target="_blank"><span th:text="${zw.positionName}"></span></a>
+                                    &nbsp;
+                                    <span class="c9"><span th:text="${zw.workAddress}"></span></span>
+                                </div>
+                                <span><em class="c7">月薪： </em><span th:text="${zw.salaryMin}"></span>k-<span th:text="${zw.salaryMax}"></span>k</span>
+                                <span><em class="c7">&emsp;经验：</em><span th:text="${zw.workYear}"></span></span>
+                                <span><em class="c7">&emsp;最低学历： </em><span th:text="${zw.education}"></span></span>
+                                <br/>
+                                <span><em class="c7">职位诱惑：</em><span th:text="${zw.positionAdvantage}"></span></span>
+                                <br/>
+                                <br/>
+                            </div>
+                        </li>
+                            </th:block>
+                        </span>
+                    </dd>
+                </dl>
+
+                <div id="flag"></div>
+            </div>
+
+            <div class="content_r">
+                <div id="Tags">
+                    <div id="c_tags_show" class="c_tags solveWrap">
+                        <table>
+                            <tbody>
+                            <tr>
+                                <td width="45">地点</td>
+                                <td th:text="${companymess.city}"></td>
+                            </tr>
+                            <tr>
+                                <td>领域</td>
+                                <td title="移动互联网" th:text="${companymess.select_industry}"></td>
+                            </tr>
+                            <tr>
+                                <td>规模</td>
+                                <td th:text="${companymess.select_scale}"></td>
+                            </tr>
+                            <tr>
+                                <td>主页</td>
+                                <td>
+                                    <a rel="nofollow" th:title="${companymess.website}" target="_blank"
+                                       th:href="@{${companymess.website}}"><span th:text="${companymess.website}"></span></a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="c_tags_edit" class="c_tags editTags dn">
+                        <form id="tagForms">
+                            <table>
+                                <tbody>
+                                <tr>
+                                    <td>地点</td>
+                                    <td>
+                                        <input type="text" placeholder="请输入地点" value="上海" name="city" id="city">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>领域</td>
+                                    <td>
+                                        <input type="hidden" value="移动互联网" id="industryField" name="industryField">
+                                        <input type="button"
+                                               style="background:none;cursor:default;border:none !important;"
+                                               disable="disable" value="移动互联网" id="select_ind" class="select_tags">
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <input type="submit" value="保存" id="submitFeatures" class="btn_small">
+                            <a id="cancelFeatures" class="btn_cancel_s" href="javascript:void(0)">取消</a>
+                            <div class="clear"></div>
+                        </form>
+                    </div>
+                </div><!-- end #Tags -->
+
+                <dl class="c_section c_stages">
+                    <dt>
+                        <h2><em></em>融资阶段</h2>
+                    </dt>
+                    <dd>
+                        <ul class="reset stageshow">
+                            <li>目前阶段：<span class="c5"><span th:text="${companymess.s_radio}"></span></span></li>
+                        </ul>
+                    </dd>
+                </dl>
+
+                <dl class="c_section c_stages">
+                    <dt>
+                        <h2><em></em>工作地址</h2>
+                    </dt>
+                    <dd>
+                        <ul class="reset stageshow">
+                            <li>公司位置：<br/>
+                                <th:block th:each="zw:${zw}">
+                                    <span class="c5"><span th:text="${zw.positionAddress}"></span><br/>
+                                <br/></span>
+                                </th:block>
+                            </li>
+                        </ul>
+                    </dd>
+                </dl>
+
+            </div>
+        </div>
+
+        <script src="style/js/company.min.js" type="text/javascript"></script>
+        <script>
+            var avatar = {};
+            avatar.uploadComplate = function (data) {
+                var result = eval('(' + data + ')');
+                if (result.success) {
+                    jQuery('#logoShow img').attr("src", ctx + '/' + result.content);
+                    jQuery.colorbox.close();
+                }
+            };
+        </script>
+        <div class="clear"></div>
+        <input type="hidden" value="d1035b6caa514d869727cff29a1c2e0c" id="resubmitToken">
+        <a rel="nofollow" title="回到顶部" id="backtop" style="display: inline;"></a>
+    </div><!-- end #container -->
+</div><!-- end #body -->
+
+<script src="style/js/core.min.js" type="text/javascript"></script>
+<script src="style/js/popup.min.js" type="text/javascript"></script>
+
+<div id="cboxOverlay" style="display: none;"></div>
+<div id="colorbox" class="" role="dialog" tabindex="-1" style="display: none;">
+    <div id="cboxWrapper">
+        <div>
+            <div id="cboxTopLeft" style="float: left;"></div>
+            <div id="cboxTopCenter" style="float: left;"></div>
+            <div id="cboxTopRight" style="float: left;"></div>
+        </div>
+        <div style="clear: left;">
+            <div id="cboxMiddleLeft" style="float: left;"></div>
+            <div id="cboxContent" style="float: left;">
+                <div id="cboxTitle" style="float: left;"></div>
+                <div id="cboxCurrent" style="float: left;"></div>
+                <button type="button" id="cboxPrevious"></button>
+                <button type="button" id="cboxNext"></button>
+                <button id="cboxSlideshow"></button>
+                <div id="cboxLoadingOverlay" style="float: left;"></div>
+                <div id="cboxLoadingGraphic" style="float: left;"></div>
+            </div>
+            <div id="cboxMiddleRight" style="float: left;"></div>
+        </div>
+        <div style="clear: left;">
+            <div id="cboxBottomLeft" style="float: left;"></div>
+            <div id="cboxBottomCenter" style="float: left;"></div>
+            <div id="cboxBottomRight" style="float: left;"></div>
+        </div>
+    </div>
+    <div style="position: absolute; width: 9999px; visibility: hidden; display: none;"></div>
+</div>
+</body>
+</html>

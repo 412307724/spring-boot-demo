@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>简历不合适提示</title>
+</head>
+<body>
+<script type="text/javascript" th:inline="javascript">
+    var mess = [[${updatenosuitable}]];
+    if(mess == "true"){
+        alert("通知成功！");
+        window.location.href = "jlbuheshi.yc";
+    }
+    if(mess == ""){
+        alert("通知失败！")
+        window.location.href = "querymess.yc";
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.yc.dao.LoginDao">
+
+    <insert id="isRegister" parameterType="map">
+        insert into user(username,password,insurepassword,type_id) values(#{username},#{password},#{insurepassword},#{type_id})
+    </insert>
+
+    <update id="updatePassword" parameterType="map">
+        update user set password = #{newpassword},insurepassword = #{insurepassword} where username = #{username}
+    </update>
+
+</mapper>

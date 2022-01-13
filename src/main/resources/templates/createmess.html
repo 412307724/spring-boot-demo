@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">>
+<head>
+    <title>发布职位信息</title>
+</head>
+<body>
+<script type="text/javascript" th:inline="javascript">
+    var mess = [[${success}]];
+    if(mess == "true"){
+        alert("发布成功！");
+        window.location.href = "create.html";
+    }
+    if(mess == ""){
+        alert("发布失败！请检查格式！")
+        window.location.href = "create.html";
+    }
+</script>
+</body>
+</html>

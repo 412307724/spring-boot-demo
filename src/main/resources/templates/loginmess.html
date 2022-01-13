@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>登录信息</title>
+    <script src="style/js/jquery.1.10.1.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="style/js/loginmess.js"></script>
+</head>
+
+<body >
+<script type="text/javascript" th:inline="javascript">
+    var msg = [[${loginmess}]];
+    if (msg == "true") {
+        alert('登录成功！');
+        location.href = "index.html";
+    } else  {
+        alert('账号或密码错误，登录失败！');
+        location.href = "login.html";
+    }
+</script>
+
+</body>
+</html>

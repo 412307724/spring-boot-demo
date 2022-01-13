@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script id="allmobilize" charset="utf-8" src="style/js/allmobilize.min.js"></script>
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link rel="alternate" media="handheld"  />
+    <!-- end 云适配 -->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>登录-聘我</title>
+    <link rel="stylesheet" type="text/css" href="style/css/style.css"/>
+
+    <script src="style/js/jquery.1.10.1.min.js" type="text/javascript"></script>
+
+    <script type="text/javascript" src="style/js/jquery.lib.min.js"></script>
+    <script type="text/javascript" src="style/js/core.min.js"></script>
+    <script type="text/javascript" src="style/js/conv.js"></script>
+</head>
+
+<body id="login_bg">
+<div class="login_wrapper">
+    <div class="login_header">
+        <a href="index.html"><img src="style/images/PinWologo.png" width="285" height="62" alt="聘我招聘" /></a>
+        <div id="cloud_s"><img src="style/images/cloud_s.png" width="81" height="52" alt="cloud" /></div>
+        <div id="cloud_m"><img src="style/images/cloud_m.png" width="136" height="95"  alt="cloud" /></div>
+    </div>
+
+    <input type="hidden" id="resubmitToken" value="" />
+    <div class="login_box">
+        <form id="loginForm" action="login.yc" name="loginForm1" method="post">
+            <input type="text" id="username" name="username" tabindex="1" placeholder="请输入账户名称" />
+            <input type="password" id="password" name="password" tabindex="2" placeholder="请输入密码" />
+            <a id="submitLogin" style="color:#fff;" class="submitLogin" title="登 &nbsp; &nbsp; 录"/>登 &nbsp; &nbsp; 录</a>
+
+        </form>
+        <div class="login_right">
+            <div>还没有聘我帐号？</div>
+            <a href="register.html" class="registor_now">立即注册</a>
+        </div>
+    </div>
+    <div class="login_box_btm"></div>
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#submitLogin").click(function () {
+            var username = $('#username').val();
+            var password = $('#password').val();
+            if(username == ""){
+                alert("账户名称不能为空！");
+                $("#username").focus();
+                return;
+            }
+            if(password == ""){
+                alert("账户密码不能为空！");
+                $("#password").focus();
+                return;
+            }
+            document.loginForm1.submit();
+        });
+
+        //回车提交
+        $("input[name=username], input[name=password]").bind('keyup', function() {
+            if (event.keyCode == "13") {
+                $("#submitLogin").click();
+            }
+        });
+    });
+</script>
+</body>
+</html>

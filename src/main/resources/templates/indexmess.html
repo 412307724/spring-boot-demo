@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script id="allmobilize" charset="utf-8" src="style/js/allmobilize.min.js"></script>
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <link rel="alternate" media="handheld"/>
+    <!-- end 云适配 -->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>聘我-互联网招聘平台</title>
+    <link rel="stylesheet" type="text/css" href="style/css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="style/css/external.min.css"/>
+    <link rel="stylesheet" type="text/css" href="style/css/popup.css"/>
+    <script src="style/js/jquery.1.10.1.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="style/js/jquery.lib.min.js"></script>
+    <script src="style/js/ajaxfileupload.js" type="text/javascript"></script>
+    <script type="text/javascript" src="style/js/additional-methods.js"></script>
+    <!--[if lte IE 8]>
+    <script type="text/javascript" src="style/js/excanvas.js"></script>
+    <![endif]-->
+
+    <script type="text/javascript" th:inline="javascript">
+        $(document).ready(function () {
+            var type_id = [[${session.type_id}]];
+            if (type_id == "" || type_id == 2) {
+                $("#jianli").hide();
+                $("#wdjl").hide();
+                $("#wyzgz").hide();
+                $("#tdzw").hide();
+                $("#zhiwei").show();
+                $("#wfbdzw").show();
+                $("#wdgszy").show();
+                $("#companymess").show();
+            }
+            if (type_id == 1) {
+                $("#jianli").show();
+                $("#wdjl").show();
+                $("#tdzw").show();
+                $("#zhiwei").hide();
+                $("#wfbdzw").hide();
+                $("#wdgszy").hide();
+                $("#companymess").hide();
+            }
+
+            $("#search_button").click(function () {
+                /*debugger;*/
+                $("#hotList").empty();
+                $("#hotjob").hide();
+                var positionName = $("#search_input").val();
+                $.ajax({
+                    url: "/selectByPositionName.yc",
+                    type: "post",
+                    data: {"positionName": positionName},
+                    async: false,
+                    dataType: "json",
+                    success: function (data) {
+                        var ss = eval(data);
+                        $.each(ss[0], function (index, map) {
+                            $("#hotList").append('<ul class="hot_pos reset"> <li class="odd clearfix">\n' +
+                                '                        <div class="hot_pos_l">\n' +
+                                '                            <div class="mb10">\n' +
+                                '                                <a href="zhiwei.yc?zhiwei_id=' + map['zhiwei_id'] + ' " target="_blank">' + map['positionName'] + '</a>\n' +
+                                '                                &nbsp;\n' +
+                                '                                <span class="c9">[' + map['workAddress'] + ']</span>\n' +
+                                '                            </div>\n' +
+                                '                            <span><em class="c7">月薪： </em>' + map['salaryMin'] + 'k-' + map['salaryMax'] + 'k</span>\n' +
+                                '                            <span><em class="c7">经验：</em> ' + map['workYear'] + '</span>\n' +
+                                '                            <span><em class="c7">最低学历： </em>' + map['education'] + '</span>\n' +
+                                '                            <br/>\n' +
+                                '                            <span><em class="c7">职位诱惑：</em>' + map['positionAdvantage'] + '</span>\n' +
+                                '                            <br/>\n' +
+                                '                        </div>\n' +
+                                '                        <div class="hot_pos_r">\n' +
+                                '                            <div class="mb10 recompany"><a href="selectcompanymess.yc?company_id=+'+map['company_id']+'" target="_blank">' + map['companyname'] + '</a></div>\n' +
+                                '                            <span><em class="c7">领域：</em> ' + map['select_industry'] + '</span>\n' +
+                                '                            <br/>\n' +
+                                '                            <span><em class="c7">阶段：</em> ' + map['s_radio'] + '</span>\n' +
+                                '                            <span><em class="c7">规模：</em>' + map['select_scale'] + '</span>\n' +
+                                '                            <ul class="companyTags reset">\n' +
+                                '                                <li>' + map['positionAdvantage'] + '</li>\n' +
+                                '                            </ul>\n' +
+                                '                        </div>\n' +
+                                '                    </li> </ul>');
+                        })
+                    },
+                    error: function (data) {
+                        alert("搜索错误");
+                    }
+                })
+            });
+
+
+        });
+    </script>
+</head>
+<body>
+<div id="body">
+    <div id="header">
+        <div class="wrapper">
+            <a href="index.html" class="logo">
+                <img src="style/images/PinWologo.png" width="229" height="43" alt="聘我招聘-专注互联网招聘"/>
+            </a>
+            <ul class="reset" id="navheader">
+                <li class="current"><a href="index.html">首页</a></li>
+                <li><a href="selectCompanymessByCity.yc?city=">招聘单位</a></li>
+                <li id="companymess"><a href="addcompanymess.html" rel="nofollow">我的公司</a></li>
+                <li id="jianli"><a href="selectjbxx.yc" rel="nofollow">我的简历</a></li>
+                <li id="zhiwei"><a href="create.html" rel="nofollow">发布职位</a></li>
+                <li id="wfbdzw"><a href="selectzhiwei.yc" rel="nofollow">我发布的职位</a></li>
+                <li id="tdzw"><a rel="nofollow" href="delivery.yc">我投递的职位</a></li>
+            </ul>
+            <ul class="loginTop">
+                <li><a href="login.html" rel="nofollow">登录</a></li>
+                <li>|</li>
+                <li><a href="register.html" rel="nofollow">注册</a></li>
+            </ul>
+            <dl class="collapsible_menu">
+                <dt>
+                    <span>[[${session.username}]]&nbsp;</span>
+                    <span class="red dn" id="noticeDot-1"></span>
+                    <i></i>
+                </dt>
+                <dd style="display: none;"><a href="updatePwd.html">修改密码</a></dd>
+                <dd class="logout" style="display: none;"><a rel="nofollow" href="Index.html">退出</a></dd>
+            </dl>
+        </div>
+    </div><!-- end #header -->
+    <div id="container">
+
+        <div id="sidebar">
+            <div class="mainNavs">
+
+                <div class="menu_box">
+                    <div class="menu_main">
+                        <h2>技术 </h2>
+                        <a href="queryByPositionName.yc?positionName=Java">Java</a>
+                        <a href="queryByPositionName.yc?positionName=PHP">PHP</a>
+                        <a href="queryByPositionName.yc?positionName=C">C</a>
+                        <a href="queryByPositionName.yc?positionName=C++">C++</a>
+                        <a href="queryByPositionName.yc?positionName=Python">Python</a>
+                        <a href="queryByPositionName.yc?positionName=前端开发">前端开发</a>
+                        <a href="queryByPositionName.yc?positionName=测试">测试</a>
+                        <a href="queryByPositionName.yc?positionName=项目经理">项目经理</a>
+                        <a href="queryByPositionName.yc?positionName=架构师">架构师</a>
+                    </div>
+
+                </div>
+                <div class="menu_box">
+                    <div class="menu_main">
+                        <h2>产品 </h2>
+                        <a href="queryByPositionName.yc?positionName=产品经理">产品经理</a>
+                        <a href="queryByPositionName.yc?positionName=产品助理">产品助理</a>
+                        <a href="queryByPositionName.yc?positionName=游戏策划">游戏策划</a>
+                    </div>
+
+                </div>
+                <div class="menu_box">
+                    <div class="menu_main">
+                        <h2>设计 </h2>
+                        <a href="queryByPositionName.yc?positionName=UI">UI</a>
+                        <a href="queryByPositionName.yc?positionName=设计师">设计师</a>
+                        <a href="queryByPositionName.yc?positionName=数据分析">数据分析</a>
+                    </div>
+
+                </div>
+                <div class="menu_box">
+                    <div class="menu_main">
+                        <h2>运营 </h2>
+                        <a href="queryByPositionName.yc?positionName=运营">运营</a>
+                        <a href="queryByPositionName.yc?positionName=游戏运营">游戏运营</a>
+                        <a href="queryByPositionName.yc?positionName=编辑">编辑</a>
+                    </div>
+
+                </div>
+                <div class="menu_box">
+                    <div class="menu_main">
+                        <h2>市场与销售 </h2>
+                        <a href="queryByPositionName.yc?positionName=市场推广">市场推广</a>
+                        <a href="queryByPositionName.yc?positionName=市场策划">市场策划</a>
+                        <a href="queryByPositionName.yc?positionName=销售经理">销售经理</a>
+                    </div>
+
+                </div>
+                <div class="menu_box">
+                    <div class="menu_main">
+                        <h2>职能 </h2>
+                        <a href="queryByPositionName.yc?positionName=HR">HR</a>
+                        <a href="queryByPositionName.yc?positionName=行政">行政</a>
+                        <a href="queryByPositionName.yc?positionName=会计">会计</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <div id="search_box">
+                <div id="searchForm" name="searchForm" method="post">
+                    <ul id="searchType">
+                        <li data-searchtype="1" class="type_selected">职位</li>
+                    </ul>
+                    <input type="text" id="search_input" name="positionName" tabindex="1" value=""
+                           placeholder="请输入职位名称，如：产品经理"/>
+                    <input type="button" id="search_button" value="搜索"/>
+                </div>
+            </div>
+            <style>
+                .ui-autocomplete {
+                    width: 488px;
+                    background: #fafafa !important;
+                    position: relative;
+                    z-index: 10;
+                    border: 2px solid #91cebe;
+                }
+
+                .ui-autocomplete-category {
+                    font-size: 16px;
+                    color: #999;
+                    width: 50px;
+                    position: absolute;
+                    z-index: 11;
+                    right: 0px; /*top: 6px; */
+                    text-align: center;
+                    border-top: 1px dashed #e5e5e5;
+                    padding: 5px 0;
+                }
+
+                .ui-menu-item {
+                    *width: 439px;
+                    vertical-align: middle;
+                    position: relative;
+                    margin: 0px;
+                    margin-right: 50px !important;
+                    background: #fff;
+                    border-right: 1px dashed #ededed;
+                }
+
+                .ui-menu-item a {
+                    display: block;
+                    overflow: hidden;
+                }
+            </style>
+            <script type="text/javascript" src="style/js/search.min.js"></script>
+            <dl class="hotSearch">
+                <dt>热门搜索：</dt>
+                <dd><a href="queryByPositionName.yc?positionName=Java">Java</a></dd>
+                <dd><a href="queryByPositionName.yc?positionName=PHP">PHP</a></dd>
+                <dd><a href="queryByPositionName.yc?positionName=Python">Python</a></dd>
+                <dd><a href="queryByPositionName.yc?positionName=前端">前端</a></dd>
+                <dd><a href="queryByPositionName.yc?positionName=经理">经理</a></dd>
+                <dd><a href="queryByPositionName.yc?positionName=UI">UI</a></dd>
+                <dd><a href="queryByPositionName.yc?positionName=运营">运营</a></dd>
+                <dd><a href="queryByPositionName.yc?positionName=实习">实习</a></dd>
+            </dl>
+
+            <ul id="da-thumbs" class="da-thumbs">
+                <li>
+                    <a href="selectcompanymess.yc?company_id=3" target="_blank">
+                        <img src="style/images/a254b11ecead45bda166afa8aaa9c8bc.jpg" width="113" height="113" alt="联想"/>
+                        <div class="hot_info">
+                            <h2 title="联想">联想</h2>
+                            <em></em>
+                            <p title="世界因联想更美好">
+                                世界因联想更美好
+                            </p>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="selectcompanymess.yc?company_id=16" target="_blank">
+                        <img src="style/images/xiaomi.png" width="113" height="113" alt="小米"/>
+                        <div class="hot_info">
+                            <h2 title="小米">小米</h2>
+                            <em></em>
+                            <p title="不断缔造成长奇迹">
+                                不断缔造成长奇迹
+                            </p>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="selectcompanymess.yc?company_id=12" target="_blank">
+                        <img src="style/images/2bba2b71d0b0443eaea1774f7ee17c9f.png" width="113" height="113"
+                             alt="优酷土豆"/>
+                        <div class="hot_info">
+                            <h2 title="优酷土豆">优酷土豆</h2>
+                            <em></em>
+                            <p title="专注于视频领域，是中国网络视频行业领军企业">
+                                专注于视频领域，是中国网络视频行业领军企业
+                            </p>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="selectcompanymess.yc?company_id=6" target="_blank">
+                        <img src="style/images/yinge.jpg" width="113" height="113"
+                             alt="印鸽科技"/>
+                        <div class="hot_info">
+                            <h2 title="印鸽科技">印鸽科技</h2>
+                            <em></em>
+                            <p title="图案只要有一个人喜欢，就能被生产">
+                                图案只要有一个人喜欢，就能被生产
+                            </p>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="selectcompanymess.yc?company_id=10" target="_blank">
+                        <img src="style/images/yuhuashiyjs.jpg" width="113" height="113" alt="雨花石云计算"/>
+                        <div class="hot_info">
+                            <h2 title="雨花石云计算">雨花石云计算</h2>
+                            <em></em>
+                            <p title="专注于房地产、快消品、生命科学">
+                                专注于房地产、快消品、生命科学
+                            </p>
+                        </div>
+                    </a>
+                </li>
+                <li class="last">
+                    <a href="selectcompanymess.yc?company_id=9" target="_blank">
+                        <img src="style/images/bdals.jpg" width="113" height="113"
+                             alt="宝岛阿里山"/>
+                        <div class="hot_info">
+                            <h2 title="宝岛阿里山">宝岛阿里山</h2>
+                            <em></em>
+                            <p title="不断追求完美、不断创新">
+                                不断追求完美、不断创新
+                            </p>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+            <ul class="reset hotabbing">
+                <li class="current">热门职位</li>
+            </ul>
+            <div id="hotList">
+                <ul class="hot_pos reset">
+                    <th:block th:each="item:${query}">
+                        <li class="odd clearfix">
+                            <div class="hot_pos_l">
+                                <div class="mb10">
+                                    <a th:href="@{'zhiwei.yc?zhiwei_id='+${item.zhiwei_id}}" target="_blank"><th:block th:text="${item.positionName}"></th:block></a>
+                                    &nbsp;
+                                    <span class="c9"><th:block th:text="${item.workAddress}"></th:block></span>
+                                </div>
+                                <span><em class="c7">月薪： </em><th:block th:text="${item.salaryMin}"></th:block>k-<th:block th:text="${item.salaryMax}"></th:block>k</span>
+                                <span><em class="c7">经验：</em> <th:block th:text="${item.workYear}"></th:block></span>
+                                <span><em class="c7">最低学历： </em><th:block th:text="${item.education}"></th:block></span>
+                                <br/>
+                                <span><em class="c7">职位诱惑：</em><th:block th:text="${item.positionAdvantage}"></th:block></span>
+                                <br/>
+                            </div>
+                            <div class="hot_pos_r">
+                                <div class="mb10 recompany"><a th:href="@{'selectcompanymess.yc?company_id='+${item.company_id}}" target="_blank"><th:block th:text="${item.companyname}"></th:block></a>
+                                </div>
+                                <span><em class="c7">领域：</em><th:block th:text="${item.select_industry}"></th:block></span>
+                                <br/>
+                                <span><em class="c7">阶段：</em> <th:block th:text="${item.s_radio}"></th:block></span>
+                                <span><em class="c7">规模：</em><th:block th:text="${item.select_scale}"></th:block></span>
+                                <ul class="companyTags reset">
+                                    <li><th:block th:text="${item.positionAdvantage}"></th:block></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </th:block>
+                </ul>
+            </div>
+
+            <div class="clear"></div>
+        </div>
+        <input type="hidden" value="" name="userid" id="userid"/>
+        <!-------------------------------------弹窗lightbox  ----------------------------------------->
+        <div style="display:none;">
+            <!-- 登录框 -->
+            <div id="loginPop" class="popup" style="height:240px;">
+                <form id="loginForm">
+                    <input type="text" id="email" name="email" tabindex="1" placeholder="请输入登录邮箱地址"/>
+                    <input type="password" id="password" name="password" tabindex="2" placeholder="请输入密码"/>
+                    <span class="error" style="display:none;" id="beError"></span>
+                    <label class="fl" for="remember"><input type="checkbox" id="remember" value="" checked="checked"
+                                                            name="autoLogin"/> 记住我</label>
+                    <a href="h/reset.html" class="fr">忘记密码？</a>
+                    <input type="submit" id="submitLogin" value="登 &nbsp; &nbsp; 录"/>
+                </form>
+                <div class="login_right">
+                    <div>还没有聘我帐号？</div>
+                    <a href="register.html" class="registor_now">立即注册</a>
+                </div>
+            </div><!--/#loginPop-->
+        </div>
+        <!------------------------------------- end ----------------------------------------->
+        <script type="text/javascript" src="style/js/Chart.min.js"></script>
+        <script type="text/javascript" src="style/js/home.min.js"></script>
+        <script type="text/javascript" src="style/js/count.js"></script>
+        <div class="clear"></div>
+        <input type="hidden" id="resubmitToken" value=""/>
+        <a id="backtop" title="回到顶部" rel="nofollow"></a>
+    </div><!-- end #container -->
+</div><!-- end #body -->
+
+<script type="text/javascript" src="style/js/core.min.js"></script>
+<script type="text/javascript" src="style/js/popup.min.js"></script>
+
+
+</body>
+</html>

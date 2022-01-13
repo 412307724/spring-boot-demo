@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>注册信息</title>
+    <script src="style/js/jquery.1.10.1.min.js" type="text/javascript"></script>
+</head>
+<body>
+<script type="text/javascript" th:inline="javascript">
+    var mess = [[${success}]];
+    if(mess == "true"){
+        alert("注册成功！");
+        window.location.href = "login.html";
+    }
+    else{
+        alert("注册失败！请检查格式！")
+        window.location.href = "register.html";
+    }
+</script>
+</body>
+</html>

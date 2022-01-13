@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>修改信息</title>
+</head>
+<body>
+<script type="text/javascript" th:inline="javascript">
+    var msg = [[${status}]];
+    if (msg == "true") {
+        alert('修改成功！');
+        window.location.href = "Index.html";
+    } else if (msg == "") {
+        alert('修改失败！');
+    }
+</script>
+</body>
+</html>

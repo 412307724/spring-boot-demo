@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script id="allmobilize" charset="utf-8" src="style/js/allmobilize.min.js"></script>
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <link rel="alternate" media="handheld"/>
+    <!-- end 云适配 -->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>招聘单位列表-聘我-互联网招聘平台</title>
+
+    <!-- <div class="web_root"  style="display:none">h</div> -->
+    <script type="text/javascript">
+        var ctx = "h";
+    </script>
+    <link rel="Shortcut Icon" href="h/images/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="style/css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="style/css/external.min.css"/>
+    <link rel="stylesheet" type="text/css" href="style/css/popup.css"/>
+    <script src="style/js/jquery.1.10.1.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="style/js/jquery.lib.min.js"></script>
+    <script src="style/js/ajaxfileupload.js" type="text/javascript"></script>
+    <script type="text/javascript" src="style/js/additional-methods.js"></script>
+    <!--[if lte IE 8]>
+    <script type="text/javascript" src="style/js/excanvas.js"></script>
+    <![endif]-->
+
+    <script type="text/javascript" th:inline="javascript">
+        $(document).ready(function () {
+            var type_id = [[${session.type_id}]];
+            if (type_id == "" || type_id == 2) {
+                $("#jianli").hide();
+                $("#wyzgz").hide();
+                $("#tdzw").hide();
+                $("#zhiwei").show();
+                $("#wfbdzw").show();
+                $("#wsddjl").show();
+                $("#wdgszy").show();
+                $("#companymess").show();
+            }
+            if (type_id == 1) {
+                $("#jianli").show();
+                $("#tdzw").show();
+                $("#zhiwei").hide();
+                $("#wfbdzw").hide();
+                $("#wsddjl").hide();
+                $("#wdgszy").hide();
+                $("#companymess").hide();
+            }
+
+            $("#search_button").click(function () {
+                document.companyname_search.submit();
+            })
+        });
+
+    </script>
+
+</head>
+<body>
+<div id="body">
+    <div id="header">
+        <div class="wrapper">
+            <a href="index.html" class="logo">
+                <img src="style/images/PinWologo.png" width="229" height="43" alt="聘我招聘-互联网招聘"/>
+            </a>
+            <ul class="reset" id="navheader">
+                <li><a href="index.html">首页</a></li>
+                <li class="current"><a href="selectCompanymessByCity.yc?city=">招聘单位</a></li>
+                <li id="companymess"><a href="addcompanymess.html" rel="nofollow">我的公司</a></li>
+                <li id="jianli"><a href="selectjbxx.yc" rel="nofollow">我的简历</a></li>
+                <li id="zhiwei"><a href="create.html" rel="nofollow">发布职位</a></li>
+                <li id="tdzw"><a rel="nofollow" href="delivery.yc">我投递的职位</a></li>
+            </ul>
+            <ul class="loginTop">
+                <li><a href="login.html" rel="nofollow">登录</a></li>
+                <li>|</li>
+                <li><a href="register.html" rel="nofollow">注册</a></li>
+            </ul>
+            <dl class="collapsible_menu">
+                <dt>
+                    <span>[[${session.username}]]&nbsp;</span>
+                    <span class="red dn" id="noticeDot-1"></span>
+                    <i></i>
+                </dt>
+                <dd><a href="updatePwd.html">修改密码</a></dd>
+                <dd class="logout"><a rel="nofollow" href="Index.html">退出</a></dd>
+            </dl>
+        </div>
+    </div>
+
+    <div id="container">
+        <form action="/selectCompanymessByCompanyName.yc" method="post" name="companyname_search">
+        <div id="search_box">
+            <div id="searchForm" name="searchForm" method="post">
+                <ul id="searchType">
+                    <li data-searchtype="1" class="type_selected">公司</li>
+                </ul>
+                <input type="text" id="search_input" name="companyname" tabindex="1" value="" placeholder="请输入公司名称，如：联想集团"/>
+                <input type="button" id="search_button" value="搜索"/>
+            </div>
+        </div>
+        </form>
+        <br/>
+
+        <div class="clearfix">
+            <div class="content_l">
+                <form id="companyListForm" name="companyListForm" method="get" action="selectCompanymessByCity.yc">
+                    <input type="hidden" id="city" name="city" value="全国"/>
+                    <dl class="hc_tag">
+                        <dt>
+                            <ul class="workplace reset fr" id="workplaceSelect">
+                                <li>
+                                    <a href="selectCompanymessByCity.yc?city=" class="current">全国</a>
+                                    |
+                                </li>
+                                <li>
+                                    <a href="selectCompanymessByCity.yc?city=北京">北京</a>
+                                    |
+                                </li>
+                                <li>
+                                    <a href="selectCompanymessByCity.yc?city=上海">上海</a>
+                                    |
+                                </li>
+                                <li>
+                                    <a href="selectCompanymessByCity.yc?city=广州">广州</a>
+                                    |
+                                </li>
+                                <li>
+                                    <a href="selectCompanymessByCity.yc?city=深圳">深圳</a>
+                                    |
+                                </li>
+                                <li>
+                                    <a href="selectCompanymessByCity.yc?city=青岛">青岛</a>
+                                    |
+                                </li>
+                                <li>
+                                    <a href="selectCompanymessByCity.yc?city=杭州">杭州</a>
+                                    |
+                                </li>
+                                <li>
+                                    <a href="selectCompanymessByCity.yc?city=武汉">武汉</a>
+                                    |
+                                </li>
+                                <li>
+                                    <a href="selectCompanymessByCity.yc?city=天津">天津</a>
+                                    |
+                                </li>
+                                <li>
+                                    <a href="selectCompanymessByCity.yc?city=西安">西安</a>
+                                    |
+                                </li>
+                                <li>
+                                    <a href="selectCompanymessByCity.yc?city=沈阳">沈阳</a>
+                                    |
+                                </li>
+                                <li>
+                                    <a href="selectCompanymessByCity.yc?city=南昌">南昌</a>
+                                    |
+                                </li>
+                                <li class="more">
+                                    <a href="javascript:void(0)">其他</a>
+                                    <div class="triangle citymore_arrow"></div>
+                                </li>
+                                <li id="box_expectCity" class="searchlist_expectCity dn">
+                                    <span class="bot"></span>
+                                    <span class="top"></span>
+                                    <dl>
+                                        <dt>ABCDEF</dt>
+                                        <dd>
+                                            <span>北京</span>
+                                            <span>长春</span>
+                                            <span>成都</span>
+                                            <span>重庆</span>
+                                            <span>长沙</span>
+                                            <span>常州</span>
+                                            <span>东莞</span>
+                                            <span>大连</span>
+                                            <span>福州</span>
+                                        </dd>
+                                    </dl>
+                                    <dl>
+                                        <dt>GHIJ</dt>
+                                        <dd>
+                                            <span>杭州</span>
+                                            <span>贵阳</span>
+                                            <span>广州</span>
+                                            <span>合肥</span>
+                                            <span>海口</span>
+                                            <span>惠州</span>
+                                            <span>金华</span>
+                                            <span>济南</span>
+                                        </dd>
+                                    </dl>
+                                    <dl>
+                                        <dt>KLMN</dt>
+                                        <dd>
+                                            <span>南昌</span>
+                                            <span>昆明</span>
+                                            <span>廊坊</span>
+                                            <span>宁波</span>
+                                            <span>南京</span>
+                                            <span>南宁</span>
+                                            <span>南通</span>
+                                        </dd>
+                                    </dl>
+                                    <dl>
+                                        <dt>OPQR</dt>
+                                        <dd>
+                                            <span>青岛</span>
+                                            <span>泉州</span>
+                                        </dd>
+                                    </dl>
+                                    <dl>
+                                        <dt>STUV</dt>
+                                        <dd>
+                                            <span>上海</span>
+                                            <span>石家庄</span>
+                                            <span>绍兴</span>
+                                            <span>沈阳</span>
+                                            <span>深圳</span>
+                                            <span>苏州</span>
+                                            <span>天津</span>
+                                            <span>太原</span>
+                                            <span>台州</span>
+                                        </dd>
+                                    </dl>
+                                    <dl>
+                                        <dt>WXYZ</dt>
+                                        <dd>
+                                            <span>武汉</span>
+                                            <span>无锡</span>
+                                            <span>温州</span>
+                                            <span>西安</span>
+                                            <span>厦门</span>
+                                            <span>烟台</span>
+                                            <span>珠海</span>
+                                            <span>中山</span>
+                                            <span>郑州</span>
+                                        </dd>
+                                    </dl>
+                                </li>
+                            </ul>
+                        </dt>
+                    </dl>
+
+                    <ul class="hc_list reset" id="ulcompany">
+                        <th:block th:each="item:${allcompany}">
+                            <li>
+                                <a th:href="@{'selectcompanymess.yc?company_id='+${item.company_id}}" target="_blank">
+                                    <h3 th:title="${item.companyname}"><span th:text="${item.companyname}"></span></h3>
+                                    <div class="comLogo">
+                                        <img th:src="@{'style/images/'+${item.logoimg}}" width="190" height="190"
+                                             th:alt="${item.companyname}"/>
+                                        <ul>
+                                            <li><span th:text="${item.select_industry}"></span></li>
+                                            <li><span th:text="${item.city}"></span>&emsp;
+                                                <span th:text="${item.s_radio}"></span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </a>
+                            </li>
+                        </th:block>
+                    </ul>
+                </form>
+            </div>
+
+        </div>
+
+        <script type="text/javascript" src="style/js/company_list.min.js"></script>
+        <div class="clear"></div>
+        <input type="hidden" id="resubmitToken" value=""/>
+        <a id="backtop" title="回到顶部" rel="nofollow"></a>
+    </div><!-- end #container -->
+</div><!-- end #body -->
+
+<script type="text/javascript" src="style/js/core.min.js"></script>
+<script type="text/javascript" src="style/js/popup.min.js"></script>
+
+
+</body>
+</html>
+

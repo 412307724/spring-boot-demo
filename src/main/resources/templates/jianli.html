@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script type="text/javascript" async="" src="style/js/conversion.js"></script>
+    <script src="style/js/allmobilize.min.js" charset="utf-8" id="allmobilize"></script>
+    <style type="text/css"></style>
+    <meta content="no-siteapp" http-equiv="Cache-Control">
+    <link media="handheld" rel="alternate">
+    <!-- end 云适配 -->
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+    <title>我的简历-聘我-互联网招聘平台</title>
+    <link href="style/css/style.css" type="text/css" rel="stylesheet">
+    <link href="style/css/external.min.css" type="text/css" rel="stylesheet">
+    <link href="style/css/popup.css" type="text/css" rel="stylesheet">
+    <script type="text/javascript" src="style/js/jquery.1.10.1.min.js"></script>
+    <script src="style/js/jquery.lib.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="style/js/ajaxfileupload.js"></script>
+    <script src="style/js/additional-methods.js" type="text/javascript"></script>
+    <!--[if lte IE 8]>
+    <script type="text/javascript" src="style/js/excanvas.js"></script>
+    <![endif]-->
+    <script type="text/javascript">
+    </script>
+    <script src="style/js/conv.js" type="text/javascript"></script>
+    <script src="style/js/ajaxCross.json" charset="UTF-8"></script>
+</head>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#deletejianli").click(function () {
+            if (confirm("确认要清空简历信息吗？")) {
+                return true;
+            } else
+                return false;
+        });
+    });
+</script>
+<body>
+<div id="body">
+    <div id="header">
+        <div class="wrapper">
+            <a class="logo" href="index.html">
+                <img width="229" height="43" alt="聘我招聘-互联网招聘" src="style/images/PinWologo.png">
+            </a>
+            <ul id="navheader" class="reset">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="selectCompanymessByCity.yc?city=">招聘单位</a></li>
+                <li class="current"><a rel="nofollow" href="selectjbxx.yc">我的简历</a></li>
+                <li id="tdzw"><a rel="nofollow" href="delivery.yc">我投递的职位</a></li>
+            </ul>
+            <dl class="collapsible_menu">
+                <dt>
+                    <span>[[${session.username}]]</span>
+                    <span class="red dn" id="noticeDot-0"></span>
+                    <i></i>
+                </dt>
+                <dd><a rel="nofollow" href="selectjbxx.yc">我的简历</a></dd>
+                <dd><a href="delivery.yc">我投递的职位</a></dd>
+                <dd><a href="updatePwd.html">修改密码</a></dd>
+                <dd class="logout"><a rel="nofollow" href="Index.html">退出</a></dd>
+            </dl>
+        </div>
+    </div><!-- end #header -->
+    <th:block th:if="${#maps.isEmpty(map)}">
+        <div class="container">
+        <span style="color: #6e6868;font-size: 20px">您还未填写简历信息</span>
+        <a href="insertjianli.yc">添加我的简历信息</a>
+        </div>
+    </th:block>
+    <th:block th:if="${not #maps.isEmpty(map)}">
+        <div id="container">
+            <div class="clearfix">
+                <div class="content_l">
+                    <div class="fl" id="resume_name">
+                        <div class="nameShow fl">
+                            <h1 th:title="${map.get('resumeName')}">
+                                <th:block th:text="${map.get('resumeName')}"></th:block>
+                            </h1>
+                            <span class="rename">给你的简历起个名</span>
+                        </div>
+                        <form class="fl dn" id="resumeNameForm" name="renamejianli" action="renamejianli.yc">
+                            <input type="text" th:value="${map.get('resumeName')}" name="resumeName"
+                                   class="nameEdit c9">
+                            <input type="button" value="保存" id="renamejianli">
+                        </form>
+                    </div>
+
+
+                    <div class="profile_box" id="basicInfo">
+                        <h2>基本信息</h2>
+                        <span class="c_edit"></span>
+                        <div class="basicShow">
+                        <span><th:block th:text="${map.get('name')}"></th:block>&emsp;<th:block
+                                th:text="${map.get('gender')}"></th:block>&emsp;<th:block
+                                th:text="${map.get('topDegree')}"></th:block>&emsp;<th:block
+                                th:text="${map.get('workyear')}"></th:block><br>
+                             <th:block th:text="${map.get('tel')}"></th:block>&emsp;<th:block
+                                    th:text="${map.get('email')}"></th:block><br>
+                             <th:block th:text="${map.get('currentState')}"></th:block>
+            			</span>
+                        </div>
+
+                        <div class="basicEdit dn">
+                            <form id="profileForm" name="jbxx" action="updatejbxx.yc">
+                                <table>
+                                    <tbody>
+                                    <tr>
+                                        <td valign="top">
+                                        </td>
+                                        <td>
+                                            <input type="text" placeholder="姓名" th:value="${map.get('name')}"
+                                                   name="name" id="name">
+                                        </td>
+                                        <td valign="top">
+                                        </td>
+                                        <td>
+                                            <ul class="profile_radio clearfix reset">
+                                                <li class="current">
+                                                    男<em></em>
+                                                    <input type="radio" name="gender" value="男">
+                                                </li>
+                                                <li>
+                                                    女<em></em>
+                                                    <input type="radio" name="gender" value="女">
+                                                </li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td valign="top">
+                                        </td>
+                                        <td>
+                                            <input type="hidden" id="topDegree" th:value="${map.get('topDegree')}"
+                                                   name="topDegree">
+                                            <input type="button" value="学历" id="select_topDegree"
+                                                   class="profile_select_190 profile_select_normal">
+                                            <div class="boxUpDown boxUpDown_190 dn" id="box_topDegree"
+                                                 style="display: none;">
+                                                <ul>
+                                                    <li>大专</li>
+                                                    <li>本科</li>
+                                                    <li>硕士</li>
+                                                    <li>博士</li>
+                                                    <li>其他</li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                        <td valign="top">
+                                        </td>
+                                        <td>
+                                            <input type="hidden" id="workyear" th:value="${map.get('workyear')}"
+                                                   name="workyear">
+                                            <input type="button" value="工作年限" id="select_workyear"
+                                                   class="profile_select_190 profile_select_normal">
+                                            <div class="boxUpDown boxUpDown_190 dn" id="box_workyear"
+                                                 style="display: none;">
+                                                <ul>
+                                                    <li>应届毕业生</li>
+                                                    <li>1年</li>
+                                                    <li>2年</li>
+                                                    <li>3年</li>
+                                                    <li>4年</li>
+                                                    <li>5年</li>
+                                                    <li>6年</li>
+                                                    <li>7年</li>
+                                                    <li>8年</li>
+                                                    <li>9年</li>
+                                                    <li>10年</li>
+                                                    <li>10年以上</li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td valign="top">
+                                        </td>
+                                        <td colspan="3">
+                                            <input type="text" placeholder="手机号码" th:value="${map.get('tel')}"
+                                                   name="tel" id="tel">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td valign="top">
+                                        </td>
+                                        <td colspan="3">
+                                            <input type="text" placeholder="接收面试通知的邮箱" th:value="${map.get('email')}"
+                                                   name="email"
+                                                   id="email">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td valign="top"></td>
+                                        <td colspan="3">
+                                            <input type="hidden" id="currentState" th:value="${map.get('currentState')}"
+                                                   name="currentState">
+                                            <input type="button" value="目前状态" id="select_currentState"
+                                                   class="profile_select_410 profile_select_normal">
+                                            <div class="boxUpDown boxUpDown_410 dn" id="box_currentState"
+                                                 style="display: none;">
+                                                <ul>
+                                                    <li>我目前已离职，可快速到岗</li>
+                                                    <li>我目前正在职，正考虑换个新环境</li>
+                                                    <li>我暂时不想找工作</li>
+                                                    <li>我是应届毕业生</li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td colspan="3">
+                                            <input type="button" value="保 存" class="btn_profile_save" id="jbxx">
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </form><!--end #profileForm-->
+
+                        </div><!--end .basicEdit-->
+                        <input type="hidden" id="nameVal" th:value="${map.get('name')}">
+                        <input type="hidden" id="genderVal" th:value="${map.get('gender')}">
+                        <input type="hidden" id="topDegreeVal" th:value="${map.get('topDegree')}">
+                        <input type="hidden" id="workyearVal" th:value="${map.get('workyear')}">
+                        <input type="hidden" id="currentStateVal" th:value="${map.get('currentState')}">
+                        <input type="hidden" id="emailVal" th:value="${map.get('email')}">
+                        <input type="hidden" id="telVal" th:value="${map.get('tel')}">
+                        <input type="hidden" id="pageType" value="1">
+                    </div><!--end #basicInfo-->
+
+                    <div class="profile_box" id="expectJob">
+                        <h2>期望工作</h2>
+                        <span class="c_edit "></span>
+                        <div class="expectShow ">
+                        <span>
+                            <th:block th:text="${map.get('expectCity')}"></th:block> &emsp;  <th:block
+                                th:text="${map.get('type')}"></th:block> <br>
+                            <th:block th:text="${map.get('expectPosition')}"></th:block> &emsp; <th:block
+                                th:text="${map.get('expectSalary')}"></th:block><br>
+            			</span>
+                        </div>
+                        <div class="expectEdit dn">
+                            <form id="expectForm" name="qwgz" action="updateqwgz.yc">
+                                <table>
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            <input type="hidden" id="expectCity" th:value="${map.get('expectCity')}"
+                                                   name="expectCity">
+                                            <input type="button" value="期望城市，如：北京" id="select_expectCity"
+                                                   class="profile_select_287 profile_select_normal">
+                                            <div class="boxUpDown boxUpDown_596 dn" id="box_expectCity"
+                                                 style="display: none;">
+                                                <dl>
+                                                    <dt>热门城市</dt>
+                                                    <dd>
+                                                        <span>北京</span>
+                                                        <span>上海</span>
+                                                        <span>广州</span>
+                                                        <span>深圳</span>
+                                                        <span>成都</span>
+                                                        <span>杭州</span>
+                                                    </dd>
+                                                </dl>
+                                                <dl>
+                                                    <dt>ABCDEF</dt>
+                                                    <dd>
+                                                        <span>北京</span>
+                                                        <span>长春</span>
+                                                        <span>成都</span>
+                                                        <span>重庆</span>
+                                                        <span>长沙</span>
+                                                        <span>常州</span>
+                                                        <span>东莞</span>
+                                                        <span>大连</span>
+                                                        <span>佛山</span>
+                                                        <span>福州</span>
+                                                    </dd>
+                                                </dl>
+                                                <dl>
+                                                    <dt>GHIJ</dt>
+                                                    <dd>
+                                                        <span>贵阳</span>
+                                                        <span>广州</span>
+                                                        <span>哈尔滨</span>
+                                                        <span>合肥</span>
+                                                        <span>海口</span>
+                                                        <span>杭州</span>
+                                                        <span>惠州</span>
+                                                        <span>金华</span>
+                                                        <span>济南</span>
+                                                        <span>嘉兴</span>
+                                                    </dd>
+                                                </dl>
+                                                <dl>
+                                                    <dt>KLMN</dt>
+                                                    <dd>
+                                                        <span>昆明</span>
+                                                        <span>廊坊</span>
+                                                        <span>宁波</span>
+                                                        <span>南昌</span>
+                                                        <span>南京</span>
+                                                        <span>南宁</span>
+                                                        <span>南通</span>
+                                                    </dd>
+                                                </dl>
+                                                <dl>
+                                                    <dt>OPQR</dt>
+                                                    <dd>
+                                                        <span>青岛</span>
+                                                        <span>泉州</span>
+                                                    </dd>
+                                                </dl>
+                                                <dl>
+                                                    <dt>STUV</dt>
+                                                    <dd>
+                                                        <span>上海</span>
+                                                        <span>石家庄</span>
+                                                        <span>绍兴</span>
+                                                        <span>沈阳</span>
+                                                        <span>深圳</span>
+                                                        <span>苏州</span>
+                                                        <span>天津</span>
+                                                        <span>太原</span>
+                                                        <span>台州</span>
+                                                    </dd>
+                                                </dl>
+                                                <dl>
+                                                    <dt>WXYZ</dt>
+                                                    <dd>
+                                                        <span>武汉</span>
+                                                        <span>无锡</span>
+                                                        <span>温州</span>
+                                                        <span>西安</span>
+                                                        <span>厦门</span>
+                                                        <span>烟台</span>
+                                                        <span>珠海</span>
+                                                        <span>中山</span>
+                                                        <span>郑州</span>
+                                                    </dd>
+                                                </dl>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <ul class="profile_radio clearfix reset">
+                                                <li class="current">
+                                                    全职<em></em>
+                                                    <input type="radio" checked="checked" name="type" value="全职">
+                                                </li>
+                                                <li>
+                                                    兼职<em></em>
+                                                    <input type="radio" name="type" value="兼职">
+                                                </li>
+                                                <li>
+                                                    实习<em></em>
+                                                    <input type="radio" name="type" value="实习">
+                                                </li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <input type="text" placeholder="期望职位，如：产品经理"
+                                                   th:value="${map.get('expectPosition')}"
+                                                   name="expectPosition" id="expectPosition">
+                                        </td>
+                                        <td>
+                                            <input type="hidden" id="expectSalary" th:value="${map.get('expectSalary')}"
+                                                   name="expectSalary">
+                                            <input type="button" value="期望月薪" id="select_expectSalary"
+                                                   class="profile_select_287 profile_select_normal">
+                                            <div class="boxUpDown boxUpDown_287 dn" id="box_expectSalary"
+                                                 style="display: none;">
+                                                <ul>
+                                                    <li>2k以下</li>
+                                                    <li>2k-5k</li>
+                                                    <li>5k-10k</li>
+                                                    <li>10k-15k</li>
+                                                    <li>15k-25k</li>
+                                                    <li>25k-50k</li>
+                                                    <li>50k以上</li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <input type="button" value="保 存" class="btn_profile_save" id="qwgz">
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </form><!--end #expectForm-->
+                        </div><!--end .expectEdit-->
+                        <div class="expectAdd">
+                            <span>添加/修改期望工作</span>
+                        </div>
+
+                        <input type="hidden" id="expectJobVal" value="">
+                        <input type="hidden" id="expectCityVal" th:value="${map.get('expectCity')}">
+                        <input type="hidden" id="typeVal" th:value="${map.get('type')}">
+                        <input type="hidden" id="expectPositionVal" th:value="${map.get('expectPosition')}">
+                        <input type="hidden" id="expectSalaryVal" th:value="${map.get('expectSalary')}">
+                    </div><!--end #expectJob-->
+
+                    <div class="profile_box" id="workExperience">
+                        <h2>工作经历 </h2>
+                        <span class="c_edit"></span>
+                        <div class="experienceShow ">
+                        <span>
+                        <th:block th:text="${map.get('companyName')}"></th:block>&emsp;<th:block
+                                th:text="${map.get('positionName')}"></th:block><br>
+                        <th:block th:text="${map.get('companyYearStart')}"></th:block>&emsp;<th:block
+                                th:text="${map.get('companyMonthStart')}"></th:block><br>
+                        <th:block th:text="${map.get('companyYearEnd')}"></th:block>&emsp;<th:block
+                                th:text="${map.get('companyMonthEnd')}"></th:block><br>
+                        </span>
+                        </div><!--end .experienceShow-->
+                        <div class="experienceEdit dn">
+                            <form class="experienceForm" name="gzjl" action="updategzjl.yc">
+                                <table>
+                                    <tbody>
+                                    <tr>
+                                        <td valign="top">
+                                        </td>
+                                        <td>
+                                            <input type="text" placeholder="公司名称" name="companyName" class="companyName"
+                                                   th:value="${map.get('companyName')}">
+                                        </td>
+                                        <td valign="top">
+                                        </td>
+                                        <td>
+                                            <input type="text" placeholder="职位名称，如：产品经理" name="positionName"
+                                                   th:value="${map.get('positionName')}"
+                                                   class="positionName">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td valign="top">
+                                        </td>
+                                        <td>
+                                            <div class="fl">
+                                                <input type="hidden" class="companyYearStart"
+                                                       th:value="${map.get('companyYearStart')}"
+                                                       name="companyYearStart">
+                                                <input type="button" value="开始年份"
+                                                       class="profile_select_139 profile_select_normal select_companyYearStart">
+                                                <div class="box_companyYearStart boxUpDown boxUpDown_139 dn"
+                                                     style="display: none;">
+                                                    <ul>
+                                                        <li>2021</li>
+                                                        <li>2020</li>
+                                                        <li>2019</li>
+                                                        <li>2018</li>
+                                                        <li>2017</li>
+                                                        <li>2016</li>
+                                                        <li>2015</li>
+                                                        <li>2014</li>
+                                                        <li>2013</li>
+                                                        <li>2012</li>
+                                                        <li>2011</li>
+                                                        <li>2010</li>
+                                                        <li>2009</li>
+                                                        <li>2008</li>
+                                                        <li>2007</li>
+                                                        <li>2006</li>
+                                                        <li>2005</li>
+                                                        <li>2004</li>
+                                                        <li>2003</li>
+                                                        <li>2002</li>
+                                                        <li>2001</li>
+                                                        <li>2000</li>
+                                                        <li>1999</li>
+                                                        <li>1998</li>
+                                                        <li>1997</li>
+                                                        <li>1996</li>
+                                                        <li>1995</li>
+                                                        <li>1994</li>
+                                                        <li>1993</li>
+                                                        <li>1992</li>
+                                                        <li>1991</li>
+                                                        <li>1990</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="fl">
+                                                <input type="hidden" class="companyMonthStart"
+                                                       th:value="${map.get('companyMonthStart')}"
+                                                       name="companyMonthStart">
+                                                <input type="button" value="开始月份"
+                                                       class="profile_select_139 profile_select_normal select_companyMonthStart">
+                                                <div style="display: none;"
+                                                     class="box_companyMonthStart boxUpDown boxUpDown_139 dn">
+                                                    <ul>
+                                                        <li>01</li>
+                                                        <li>02</li>
+                                                        <li>03</li>
+                                                        <li>04</li>
+                                                        <li>05</li>
+                                                        <li>06</li>
+                                                        <li>07</li>
+                                                        <li>08</li>
+                                                        <li>09</li>
+                                                        <li>10</li>
+                                                        <li>11</li>
+                                                        <li>12</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="clear"></div>
+                                        </td>
+                                        <td valign="top">
+                                        </td>
+                                        <td>
+                                            <div class="fl">
+                                                <input type="hidden" class="companyYearEnd"
+                                                       th:value="${map.get('companyYearEnd')}" name="companyYearEnd">
+                                                <input type="button" value="结束年份"
+                                                       class="profile_select_139 profile_select_normal select_companyYearEnd">
+                                                <div class="box_companyYearEnd  boxUpDown boxUpDown_139 dn"
+                                                     style="display: none;">
+                                                    <ul>
+                                                        <li>至今</li>
+                                                        <li>2021</li>
+                                                        <li>2020</li>
+                                                        <li>2019</li>
+                                                        <li>2018</li>
+                                                        <li>2017</li>
+                                                        <li>2016</li>
+                                                        <li>2015</li>
+                                                        <li>2014</li>
+                                                        <li>2013</li>
+                                                        <li>2012</li>
+                                                        <li>2011</li>
+                                                        <li>2010</li>
+                                                        <li>2009</li>
+                                                        <li>2008</li>
+                                                        <li>2007</li>
+                                                        <li>2006</li>
+                                                        <li>2005</li>
+                                                        <li>2004</li>
+                                                        <li>2003</li>
+                                                        <li>2002</li>
+                                                        <li>2001</li>
+                                                        <li>2000</li>
+                                                        <li>1999</li>
+                                                        <li>1998</li>
+                                                        <li>1997</li>
+                                                        <li>1996</li>
+                                                        <li>1995</li>
+                                                        <li>1994</li>
+                                                        <li>1993</li>
+                                                        <li>1992</li>
+                                                        <li>1991</li>
+                                                        <li>1990</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="fl">
+                                                <input type="hidden" class="companyMonthEnd"
+                                                       th:value="${map.get('companyMonthEnd')}"
+                                                       name="companyMonthEnd">
+                                                <input type="button" value="结束月份"
+                                                       class="profile_select_139 profile_select_normal select_companyMonthEnd">
+                                                <div style="display: none;"
+                                                     class="box_companyMonthEnd boxUpDown boxUpDown_139 dn">
+                                                    <ul>
+                                                        <li>01</li>
+                                                        <li>02</li>
+                                                        <li>03</li>
+                                                        <li>04</li>
+                                                        <li>05</li>
+                                                        <li>06</li>
+                                                        <li>07</li>
+                                                        <li>08</li>
+                                                        <li>09</li>
+                                                        <li>10</li>
+                                                        <li>11</li>
+                                                        <li>12</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="clear"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td colspan="3">
+                                            <input type="button" value="保 存" class="btn_profile_save" id="gzjl">
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <input type="hidden" class="expId" value="">
+                            </form><!--end .experienceForm-->
+                        </div><!--end .experienceEdit-->
+
+                        <div class="experienceAdd">
+                            <span>添加/修改工作经历</span>
+                        </div>
+                    </div><!--end #workExperience-->
+
+                    <div class="profile_box" id="projectExperience">
+                        <h2>项目经验</h2>
+                        <span class="c_edit "></span>
+                        <div class="projectShow">
+                        <span>
+                            <th:block th:text="${map.get('projectName')}"></th:block>&emsp;<th:block
+                                th:text="${map.get('thePost')}"></th:block><br>
+                            <th:block th:text="${map.get('projectYearStart')}"></th:block>&emsp;<th:block
+                                th:text="${map.get('projectMonthStart')}"></th:block><br>
+                            <th:block th:text="${map.get('projectYearEnd')}"></th:block>&emsp;<th:block
+                                th:text="${map.get('projectMonthEnd')}"></th:block><br>
+                            <th:block th:text="${map.get('projectDescription')}"></th:block>
+                        </span>
+                            <ul class="plist clearfix">
+                            </ul>
+                        </div><!--end .projectShow-->
+                        <div class="projectEdit dn">
+                            <form class="projectForm" name="xmjy" action="updatexmjy.yc">
+                                <table>
+                                    <tbody>
+                                    <tr>
+                                        <td valign="top">
+                                        </td>
+                                        <td>
+                                            <input type="text" placeholder="项目名称" name="projectName" class="projectName"
+                                                   th:value="${map.get('projectName')}">
+                                        </td>
+                                        <td valign="top">
+                                        </td>
+                                        <td>
+                                            <input type="text" placeholder="担任职务，如：产品负责人" name="thePost" class="thePost"
+                                                   th:value="${map.get('thePost')}">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td valign="top">
+                                        </td>
+                                        <td>
+                                            <div class="fl">
+                                                <input type="hidden" class="projectYearStart"
+                                                       th:value="${map.get('projectYearStart')}"
+                                                       name="projectYearStart">
+                                                <input type="button" value="开始年份"
+                                                       class="profile_select_139 profile_select_normal select_projectYearStart">
+                                                <div class="box_projectYearStart  boxUpDown boxUpDown_139 dn"
+                                                     style="display: none;">
+                                                    <ul>
+                                                        <li>2021</li>
+                                                        <li>2020</li>
+                                                        <li>2019</li>
+                                                        <li>2018</li>
+                                                        <li>2017</li>
+                                                        <li>2016</li>
+                                                        <li>2015</li>
+                                                        <li>2014</li>
+                                                        <li>2013</li>
+                                                        <li>2012</li>
+                                                        <li>2011</li>
+                                                        <li>2010</li>
+                                                        <li>2009</li>
+                                                        <li>2008</li>
+                                                        <li>2007</li>
+                                                        <li>2006</li>
+                                                        <li>2005</li>
+                                                        <li>2004</li>
+                                                        <li>2003</li>
+                                                        <li>2002</li>
+                                                        <li>2001</li>
+                                                        <li>2000</li>
+                                                        <li>1999</li>
+                                                        <li>1998</li>
+                                                        <li>1997</li>
+                                                        <li>1996</li>
+                                                        <li>1995</li>
+                                                        <li>1994</li>
+                                                        <li>1993</li>
+                                                        <li>1992</li>
+                                                        <li>1991</li>
+                                                        <li>1990</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="fl">
+                                                <input type="hidden" class="projectMonthStart"
+                                                       th:value="${map.get('projectMonthStart')}"
+                                                       name="projectMonthStart">
+                                                <input type="button" value="开始月份"
+                                                       class="profile_select_139 profile_select_normal select_projectMonthStart">
+                                                <div style="display: none;"
+                                                     class="box_projectMonthStart boxUpDown boxUpDown_139 dn">
+                                                    <ul>
+                                                        <li>01</li>
+                                                        <li>02</li>
+                                                        <li>03</li>
+                                                        <li>04</li>
+                                                        <li>05</li>
+                                                        <li>06</li>
+                                                        <li>07</li>
+                                                        <li>08</li>
+                                                        <li>09</li>
+                                                        <li>10</li>
+                                                        <li>11</li>
+                                                        <li>12</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="clear"></div>
+                                        </td>
+                                        <td valign="top">
+                                        </td>
+                                        <td>
+                                            <div class="fl">
+                                                <input type="hidden" class="projectYearEnd"
+                                                       th:value="${map.get('projectYearEnd')}" name="projectYearEnd">
+                                                <input type="button" value="结束年份"
+                                                       class="profile_select_139 profile_select_normal select_projectYearEnd">
+                                                <div class="box_projectYearEnd  boxUpDown boxUpDown_139 dn"
+                                                     style="display: none;">
+                                                    <ul>
+                                                        <li>至今</li>
+                                                        <li>2021</li>
+                                                        <li>2020</li>
+                                                        <li>2019</li>
+                                                        <li>2018</li>
+                                                        <li>2017</li>
+                                                        <li>2016</li>
+                                                        <li>2015</li>
+                                                        <li>2014</li>
+                                                        <li>2013</li>
+                                                        <li>2012</li>
+                                                        <li>2011</li>
+                                                        <li>2010</li>
+                                                        <li>2009</li>
+                                                        <li>2008</li>
+                                                        <li>2007</li>
+                                                        <li>2006</li>
+                                                        <li>2005</li>
+                                                        <li>2004</li>
+                                                        <li>2003</li>
+                                                        <li>2002</li>
+                                                        <li>2001</li>
+                                                        <li>2000</li>
+                                                        <li>1999</li>
+                                                        <li>1998</li>
+                                                        <li>1997</li>
+                                                        <li>1996</li>
+                                                        <li>1995</li>
+                                                        <li>1994</li>
+                                                        <li>1993</li>
+                                                        <li>1992</li>
+                                                        <li>1991</li>
+                                                        <li>1990</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="fl">
+                                                <input type="hidden" class="projectMonthEnd"
+                                                       th:value="${map.get('projectMonthEnd')}"
+                                                       name="projectMonthEnd">
+                                                <input type="button" value="结束月份"
+                                                       class="profile_select_139 profile_select_normal select_projectMonthEnd">
+                                                <div style="display: none;"
+                                                     class="box_projectMonthEnd boxUpDown boxUpDown_139 dn">
+                                                    <ul>
+                                                        <li>01</li>
+                                                        <li>02</li>
+                                                        <li>03</li>
+                                                        <li>04</li>
+                                                        <li>05</li>
+                                                        <li>06</li>
+                                                        <li>07</li>
+                                                        <li>08</li>
+                                                        <li>09</li>
+                                                        <li>10</li>
+                                                        <li>11</li>
+                                                        <li>12</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="clear"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td valign="top"></td>
+                                        <td colspan="3">
+                                        <textarea class="projectDescription s_textarea" name="projectDescription"
+                                                  placeholder="项目描述"><th:block
+                                                th:text="${map.get('projectDescription')}"></th:block></textarea>
+                                            <div class="word_count">你还可以输入 <span>500</span> 字</div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td valign="top"></td>
+                                        <td colspan="3">
+                                            <input type="button" value="保 存" class="btn_profile_save" id="xmjy">
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <input type="hidden" value="" class="projectId">
+                            </form><!--end .projectForm-->
+                        </div><!--end .projectEdit-->
+                        <div class="projectAdd">
+                            <span>添加/修改项目经验</span>
+                        </div>
+                    </div><!--end #projectExperience-->
+
+                    <div class="profile_box" id="educationalBackground">
+                        <h2>教育背景</h2>
+                        <span class="c_edit "></span>
+                        <div class="educationalShow">
+                        <span>
+                            <th:block th:text="${map.get('schoolName')}"></th:block>&emsp;<th:block
+                                th:text="${map.get('degree')}"></th:block><br>
+                            <th:block th:text="${map.get('professionalName')}"></th:block>&emsp;&emsp;<th:block
+                                th:text="${map.get('schoolYearStart')}"></th:block>&emsp;<th:block
+                                th:text="${map.get('schoolYearEnd')}"></th:block>
+                        </span>
+                            <ul class="elist clearfix">
+                            </ul>
+                        </div><!--end .educationalShow-->
+                        <div class="educationalEdit dn">
+                            <form class="educationalForm" name="jybj" action="updatejybj.yc">
+                                <table>
+                                    <tbody>
+                                    <tr>
+                                        <td valign="top">
+                                        </td>
+                                        <td>
+                                            <input type="text" placeholder="学校名称" name="schoolName" class="schoolName"
+                                                   th:value="${map.get('schoolName')}">
+                                        </td>
+                                        <td valign="top">
+                                        </td>
+                                        <td>
+                                            <input type="hidden" class="degree" th:value="${map.get('degree')}"
+                                                   name="degree">
+                                            <input type="button" value="学历"
+                                                   class="profile_select_287 profile_select_normal select_degree">
+                                            <div class="box_degree boxUpDown boxUpDown_287 dn" style="display: none;">
+                                                <ul>
+                                                    <li>大专</li>
+                                                    <li>本科</li>
+                                                    <li>硕士</li>
+                                                    <li>博士</li>
+                                                    <li>其他</li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td valign="top">
+                                        </td>
+                                        <td>
+                                            <input type="text" placeholder="专业名称" name="professionalName"
+                                                   class="professionalName" th:value="${map.get('professionalName')}">
+                                        </td>
+                                        <td valign="top">
+                                        </td>
+                                        <td>
+                                            <div class="fl">
+                                                <input type="hidden" class="schoolYearStart"
+                                                       th:value="${map.get('schoolYearStart')}"
+                                                       name="schoolYearStart">
+                                                <input type="button" value="开始年份"
+                                                       class="profile_select_139 profile_select_normal select_schoolYearStart">
+                                                <div class="box_schoolYearStart boxUpDown boxUpDown_139 dn"
+                                                     style="display: none;">
+                                                    <ul>
+                                                        <li>2021</li>
+                                                        <li>2020</li>
+                                                        <li>2019</li>
+                                                        <li>2018</li>
+                                                        <li>2017</li>
+                                                        <li>2016</li>
+                                                        <li>2015</li>
+                                                        <li>2014</li>
+                                                        <li>2013</li>
+                                                        <li>2012</li>
+                                                        <li>2011</li>
+                                                        <li>2010</li>
+                                                        <li>2009</li>
+                                                        <li>2008</li>
+                                                        <li>2007</li>
+                                                        <li>2006</li>
+                                                        <li>2005</li>
+                                                        <li>2004</li>
+                                                        <li>2003</li>
+                                                        <li>2002</li>
+                                                        <li>2001</li>
+                                                        <li>2000</li>
+                                                        <li>1999</li>
+                                                        <li>1998</li>
+                                                        <li>1997</li>
+                                                        <li>1996</li>
+                                                        <li>1995</li>
+                                                        <li>1994</li>
+                                                        <li>1993</li>
+                                                        <li>1992</li>
+                                                        <li>1991</li>
+                                                        <li>1990</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="fl">
+                                                <input type="hidden" class="schoolYearEnd"
+                                                       th:value="${map.get('schoolYearEnd')}" name="schoolYearEnd">
+                                                <input type="button" value="结束年份"
+                                                       class="profile_select_139 profile_select_normal select_schoolYearEnd">
+                                                <div class="box_schoolYearEnd  boxUpDown boxUpDown_139 dn"
+                                                     style="display: none;">
+                                                    <ul>
+                                                        <li>2025</li>
+                                                        <li>2024</li>
+                                                        <li>2023</li>
+                                                        <li>2022</li>
+                                                        <li>2021</li>
+                                                        <li>2020</li>
+                                                        <li>2019</li>
+                                                        <li>2018</li>
+                                                        <li>2017</li>
+                                                        <li>2016</li>
+                                                        <li>2015</li>
+                                                        <li>2014</li>
+                                                        <li>2013</li>
+                                                        <li>2012</li>
+                                                        <li>2011</li>
+                                                        <li>2010</li>
+                                                        <li>2009</li>
+                                                        <li>2008</li>
+                                                        <li>2007</li>
+                                                        <li>2006</li>
+                                                        <li>2005</li>
+                                                        <li>2004</li>
+                                                        <li>2003</li>
+                                                        <li>2002</li>
+                                                        <li>2001</li>
+                                                        <li>2000</li>
+                                                        <li>1999</li>
+                                                        <li>1998</li>
+                                                        <li>1997</li>
+                                                        <li>1996</li>
+                                                        <li>1995</li>
+                                                        <li>1994</li>
+                                                        <li>1993</li>
+                                                        <li>1992</li>
+                                                        <li>1991</li>
+                                                        <li>1990</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="clear"></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td colspan="3">
+                                            <input type="button" value="保 存" class="btn_profile_save" id="jybj">
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <input type="hidden" class="eduId" value="">
+                            </form><!--end .educationalForm-->
+                        </div><!--end .educationalEdit-->
+                        <div class="educationalAdd">
+                            <span>添加/修改教育经历</span>
+                        </div>
+                    </div><!--end #educationalBackground-->
+
+                    <div class="profile_box" id="selfDescription">
+                        <h2>自我描述</h2>
+                        <span class="c_edit "></span>
+                        <div class="descriptionShow">
+                        <span>
+                            <th:block th:text="${map.get('selfDescription')}"></th:block>
+                        </span>
+                        </div><!--end .descriptionShow-->
+                        <div class="descriptionEdit dn">
+                            <form class="descriptionForm" name="zwms" action="updatezwms.yc">
+                                <table>
+                                    <tbody>
+                                    <tr>
+                                        <td colspan="2">
+                                        <textarea class="selfDescription s_textarea" name="selfDescription"
+                                                  placeholder="自我描述"><th:block
+                                                th:text="${map.get('selfDescription')}"></th:block></textarea>
+                                            <div class="word_count">你还可以输入 <span>500</span> 字</div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <input type="button" value="保 存" class="btn_profile_save" id="zwms">
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </form><!--end .descriptionForm-->
+                        </div><!--end .descriptionEdit-->
+                        <div class="descriptionAdd">
+                            <span>添加/修改自我描述</span>
+                        </div>
+                    </div><!--end #selfDescription-->
+
+                    <input type="hidden" id="resumeId" value="268472">
+                </div>
+            </div>
+
+            <div class="company_center_aside_right">
+                <dt>我的简历</dt>
+                <dd>
+                    <a href="insertjianli.yc">添加我的简历信息</a>
+                </dd>
+                <dd>
+                    <a th:href="@{'queryjianlimess.yc?jianli_id='+${map.get('jianli_id')}}">查看我的简历信息</a>
+                </dd>
+                <dd id="deletejianli">
+                    <a href="deletejianli.yc">清空我的简历信息</a>
+                </dd>
+            </div>
+
+            <script src="style/js/Chart.min.js" type="text/javascript"></script>
+            <script src="style/js/profile.min.js" type="text/javascript"></script>
+            <!-- <div id="profileOverlay"></div> -->
+            <div class="" id="qr_cloud_resume" style="display: none;">
+                <div class="cloud">
+                    <img width="134" height="134" src="">
+                    <a class="close" href="javascript:;"></a>
+                </div>
+            </div>
+            <script>
+                $(function () {
+                    $.ajax({
+                        url: ctx + "/mycenter/showQRCode",
+                        type: "GET",
+                        async: false
+                    }).done(function (data) {
+                        if (data.success) {
+                            $('#qr_cloud_resume img').attr("src", data.content);
+                        }
+                    });
+                    var sessionId = "resumeQR" + 314873;
+                    if (!$.cookie(sessionId)) {
+                        $.cookie(sessionId, 0, {expires: 1});
+                    }
+                    if ($.cookie(sessionId) &amp;&amp; $.cookie(sessionId) != 5) {
+                        $('#qr_cloud_resume').removeClass('dn');
+                    }
+                    $('#qr_cloud_resume .close').click(function () {
+                        $('#qr_cloud_resume').fadeOut(200);
+                        resumeQR = parseInt($.cookie(sessionId)) + 1;
+                        $.cookie(sessionId, resumeQR, {expires: 1});
+                    });
+                });
+            </script>
+            <div class="clear"></div>
+            <input type="hidden" value="97fd449bcb294153a671f8fe6f4ba655" id="resubmitToken">
+            <a rel="nofollow" title="回到顶部" id="backtop" style="display: none;"></a>
+        </div><!-- end #container -->
+    </th:block>
+</div><!-- end #body -->
+
+<script src="style/js/core.min.js" type="text/javascript"></script>
+<script src="style/js/popup.min.js" type="text/javascript"></script>
+
+<!--  -->
+
+<script type="text/javascript">
+    $(function () {
+        $('#noticeDot-1').hide();
+        $('#noticeTip a.closeNT').click(function () {
+            $(this).parent().hide();
+        });
+    });
+    var index = Math.floor(Math.random() * 2);
+    var ipArray = new Array('42.62.79.226', '42.62.79.227');
+    var url = "ws://" + ipArray[index] + ":18080/wsServlet?code=314873";
+    var CallCenter = {
+        init: function (url) {
+            var _websocket = new WebSocket(url);
+            _websocket.onopen = function (evt) {
+                console.log("Connected to WebSocket server.");
+            };
+            _websocket.onclose = function (evt) {
+                console.log("Disconnected");
+            };
+            _websocket.onmessage = function (evt) {
+                //alert(evt.data);
+                var notice = jQuery.parseJSON(evt.data);
+                if (notice.status[0] == 0) {
+                    $('#noticeDot-0').hide();
+                    $('#noticeTip').hide();
+                    $('#noticeNo').text('').show().parent('a').attr('href', ctx + '/mycenter/delivery.html');
+                    $('#noticeNoPage').text('').show().parent('a').attr('href', ctx + '/mycenter/delivery.html');
+                } else {
+                    $('#noticeDot-0').show();
+                    $('#noticeTip strong').text(notice.status[0]);
+                    $('#noticeTip').show();
+                    $('#noticeNo').text('(' + notice.status[0] + ')').show().parent('a').attr('href', ctx + '/mycenter/delivery.html');
+                    $('#noticeNoPage').text(' (' + notice.status[0] + ')').show().parent('a').attr('href', ctx + '/mycenter/delivery.html');
+                }
+                $('#noticeDot-1').hide();
+            };
+            _websocket.onerror = function (evt) {
+                console.log('Error occured: ' + evt);
+            };
+        }
+    };
+    CallCenter.init(url);
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#renamejianli").click(function () {
+            document.renamejianli.submit();
+        });
+        $("#jbxx").click(function () {
+            document.jbxx.submit();
+        });
+        $("#qwgz").click(function () {
+            document.qwgz.submit();
+        });
+        $("#gzjl").click(function () {
+            document.gzjl.submit();
+        });
+        $("#xmjy").click(function () {
+            document.xmjy.submit();
+        });
+        $("#jybj").click(function () {
+            document.jybj.submit();
+        });
+        $("#zwms").click(function () {
+            document.zwms.submit();
+        });
+    })
+</script>
+
+<div id="cboxOverlay" style="display: none;"></div>
+<div id="colorbox" class="" role="dialog" tabindex="-1" style="display: none;">
+    <div id="cboxWrapper">
+        <div>
+            <div id="cboxTopLeft" style="float: left;"></div>
+            <div id="cboxTopCenter" style="float: left;"></div>
+            <div id="cboxTopRight" style="float: left;"></div>
+        </div>
+        <div style="clear: left;">
+            <div id="cboxMiddleLeft" style="float: left;"></div>
+            <div id="cboxContent" style="float: left;">
+                <div id="cboxTitle" style="float: left;"></div>
+                <div id="cboxCurrent" style="float: left;"></div>
+                <button type="button" id="cboxPrevious"></button>
+                <button type="button" id="cboxNext"></button>
+                <button id="cboxSlideshow"></button>
+                <div id="cboxLoadingOverlay" style="float: left;"></div>
+                <div id="cboxLoadingGraphic" style="float: left;"></div>
+            </div>
+            <div id="cboxMiddleRight" style="float: left;"></div>
+        </div>
+        <div style="clear: left;">
+            <div id="cboxBottomLeft" style="float: left;"></div>
+            <div id="cboxBottomCenter" style="float: left;"></div>
+            <div id="cboxBottomRight" style="float: left;"></div>
+        </div>
+    </div>
+    <div style="position: absolute; width: 9999px; visibility: hidden; display: none;"></div>
+</div>
+</body>
+</html>

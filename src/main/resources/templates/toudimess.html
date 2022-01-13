@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>投递简历信息</title>
+</head>
+<body>
+<script type="text/javascript" th:inline="javascript">
+    var mess = [[${successtoudi}]];
+    if(mess == "true"){
+        alert("投递成功！");
+        window.location.href = "delivery.yc";
+    }
+    if(mess == ""){
+        alert("投递失败！请先完善简历！")
+        window.location.href = "selectjbxx.yc";
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>通知面试提示</title>
+</head>
+<body>
+<script type="text/javascript" th:inline="javascript">
+    var mess = [[${updatetongzhims}]];
+    if(mess == "true"){
+        alert("通知成功！");
+        window.location.href = "tongzhimianshi.yc";
+    }
+    if(mess == ""){
+        alert("通知失败！")
+        window.location.href = "querymess.yc";
+    }
+</script>
+</body>
+</html>
