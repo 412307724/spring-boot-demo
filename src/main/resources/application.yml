@@ -24,4 +24,4 @@ logging:
   level:
     com.yc.dao: debug
 server:
-  port: 8082
+  port: 8083
